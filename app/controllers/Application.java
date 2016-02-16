@@ -22,6 +22,24 @@ public class Application extends Controller {
         return ok(index.render("データベースのサンプル",datas));
     }
     
+    //新規作成フォームのaction
+    public Result add(){
+        Form<Message> f = new Form(Message.class);
+        return ok (add.render("投稿フォーム",f));
+    }
+    
+    //createにアクセスした際のアクション
+    public Result create(){
+        Form<Message> f = new Form(Message.class).bindFromRequest();
+        if(!f.hasErrors()){
+            Message data = f.get();
+            data.save();
+            return redirect("/");
+        }else{
+            return badRequest(add.render("ERROR",f));
+        }
+    }
+    
     
 }
 
